@@ -18,9 +18,9 @@ const getVisibleContacts = (contacts, statusFilter) => {
 };
 
 function ContactList() {
-const {filtr, error, isLoading, contacts } = useSelector((state) =>
-  state.contacts
-);
+  const { filtr, error, isLoading, contacts } = useSelector((state) =>
+    state.contacts
+  );
 
   const dispatch = useDispatch();
 
@@ -34,10 +34,6 @@ const {filtr, error, isLoading, contacts } = useSelector((state) =>
   console.log("contactList-visibleContacts: ", visibleContacts);
   console.log("contactList-statusFilter: ", statusFilter);
 
-
-
-
-
   useEffect(() => {
     dispatch(fetchContacts());
     // const upContacts = localStorage.load("contacts");
@@ -50,6 +46,8 @@ const {filtr, error, isLoading, contacts } = useSelector((state) =>
 
   useEffect(() => {
     // localStorage.save("contacts", contacts);
+    // dispatch(fetchContacts());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contacts]);
 
   return (

@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchContacts, setStatusFilter } from "./operations";
+import {
+  deleteContact,
+  fetchContacts,
+  fetchDelContacts,
+  setStatusFilter,
+} from "./operations";
 
 const contactSlice = createSlice({
   name: "contacts",
@@ -7,6 +12,7 @@ const contactSlice = createSlice({
     filtr: "",
     error: null,
     isLoading: false,
+    isDeleting: false,
     contacts: [],
   },
 
@@ -26,13 +32,35 @@ const contactSlice = createSlice({
         state.error = action.payload;
       });
     builder
-      .addCase(setStatusFilter.type, (state, action) => {
-  return {
-    ...state,
-    filtr: action.payload,
-  };
-});
+      .addCase(fetchDelContacts.pending, (state) => {
+        state.isDeleting = true;
+      })
+      .addCase(fetchDelContacts.fulfilled, (state, action) => {
+        console.log("action.payload: ", action.payload);
+        state.isDeleting = false;
+        state.error = null;
+        return state.contacts.filter((contact) =>
+          contact.id !== action.payload
+        );
+      })
+      .addCase(fetchDelContacts.rejected, (state, action) => {
+        state.isDeleting = false;
+        state.error = action.payload;
+      });
 
+    builder
+      .addCase(setStatusFilter.type, (state, action) => {
+        return {
+          ...state,
+          filtr: action.payload,
+        };
+      });
+    builder
+      .addCase(deleteContact.type, (state, action) => {
+        return state.contacts.filter((contact) =>
+          contact.id !== action.payload
+        );
+      });
   },
 });
 
@@ -41,4 +69,10 @@ export const {
   fetchContactsFulfilled,
   fetchContactsPending,
   fetchContactsRejected,
+} = contactSlice.actions;
+
+export const {
+  fetchDelContactsFulfilled,
+  fetchDelContactsPending,
+  fetchDelContactsRejected,
 } = contactSlice.actions;

@@ -27,9 +27,23 @@ const options = {
   },
 };
 
-async function fetchData() {
+async function fetchData(query, id) {
+  options.method = query;
+  let url_1 = "contacts/";
+
+  switch (query) {
+    case "GET":
+      break;
+    case "DELETE":
+      url_1 = `contacts/${id}`;
+      break;
+
+    default:
+      break;
+  }
+
   try {
-    const url = `${BASE_API_URL}/contacts/`;
+    const url = `${BASE_API_URL}/${url_1}`;
     const response = await fetchWithTimeout(
       `${url}`,
       options,
