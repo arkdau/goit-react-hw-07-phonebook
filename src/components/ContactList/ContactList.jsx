@@ -18,7 +18,7 @@ const getVisibleContacts = (contacts, statusFilter) => {
 };
 
 function ContactList() {
-  const { filtr, error, isLoading, contacts } = useSelector((state) =>
+  const { filtr, error, isLoading, isDeleting, contacts } = useSelector((state) =>
     state.contacts
   );
 
@@ -35,6 +35,7 @@ function ContactList() {
   console.log("contactList-statusFilter: ", statusFilter);
 
   useEffect(() => {
+
     dispatch(fetchContacts());
     // const upContacts = localStorage.load("contacts");
     // upContacts.map((item) => {
@@ -46,9 +47,11 @@ function ContactList() {
 
   useEffect(() => {
     // localStorage.save("contacts", contacts);
-    // dispatch(fetchContacts());
+
+      dispatch(fetchContacts());
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contacts]);
+  }, [isDeleting]);
 
   return (
     <>

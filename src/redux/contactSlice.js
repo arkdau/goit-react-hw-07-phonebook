@@ -39,9 +39,9 @@ const contactSlice = createSlice({
         console.log("action.payload: ", action.payload);
         state.isDeleting = false;
         state.error = null;
-        return state.contacts.filter((contact) =>
-          contact.id !== action.payload
-        );
+        // return state.contacts.filter((contact) =>
+        //   contact.id !== action.payload
+        // );
       })
       .addCase(fetchDelContacts.rejected, (state, action) => {
         state.isDeleting = false;
