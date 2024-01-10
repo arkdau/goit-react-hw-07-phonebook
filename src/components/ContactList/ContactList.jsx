@@ -1,59 +1,46 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-// import { getContact, getStatusFilter } from "./../../redux/selectors";
-// import * as localStorage from "./../../storage";
 import { Contact } from "./../Contact/Contact";
-// import { addContact } from "./../../redux/actions";
-import { fetchContacts, setStatusFilter } from "./../../redux/operations";
+import { fetchContacts } from "./../../redux/operations";
 
-const getVisibleContacts = (contacts, statusFilter) => {
-  console.log("statusFilter: ", statusFilter.text);
-
+const getVisibleContacts = (contacts, filtr) => {
   return (
-    statusFilter
-      ? contacts.filter((item) => item.name.includes(statusFilter.text))
-      : contacts
+    filtr ? contacts.filter((item) => item.name.includes(filtr.text)) : contacts
   );
 };
 
 function ContactList() {
-  const { filtr, error, isLoading, isDeleting, contacts } = useSelector((state) =>
-    state.contacts
-  );
+  const { filtr, error, isLoading, isDeleting, isPosting, contacts } =
+    useSelector((
+      state,
+    ) => state.contacts);
 
   const dispatch = useDispatch();
 
-  // const contacts = useSelector(getContact);
-  // const statusFilter = useSelector(getStatusFilter);
-  const statusFilter = filtr;
-
-  const visibleContacts = getVisibleContacts(contacts, statusFilter);
-
-  console.log("ContactList-contact: ", contacts);
-  console.log("contactList-visibleContacts: ", visibleContacts);
-  console.log("contactList-statusFilter: ", statusFilter);
+  const visibleContacts = getVisibleContacts(contacts, filtr);
 
   useEffect(() => {
-
     dispatch(fetchContacts());
-    // const upContacts = localStorage.load("contacts");
-    // upContacts.map((item) => {
-    //   return dispatch(addContact(item.name, item.number));
-    // });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    // localStorage.save("contacts", contacts);
-
-      dispatch(fetchContacts());
+    dispatch(fetchContacts());
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDeleting]);
 
+  useEffect(() => {
+    if (!isPosting) {
+      dispatch(fetchContacts());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPosting]);
+
   return (
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     <>
       <ul>
         {(visibleContacts || []).map((item) => {

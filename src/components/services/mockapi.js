@@ -22,20 +22,30 @@ async function fetchWithTimeout(resource, options) {
 const options = {
   timeout: 6000,
   method: "GET",
+  // body: JSON.stringify({
+  //   // userId: 1,
+  //   name: "",
+  //   phone: "",
+  // }),
   headers: {
     accept: "application/json",
+    "content-type": "application/json",
   },
 };
 
-async function fetchData(query, id) {
+async function fetchData(query, id, data) {
   options.method = query;
   let url_1 = "contacts/";
 
   switch (query) {
     case "GET":
+      options.body = null;
       break;
     case "DELETE":
       url_1 = `contacts/${id}`;
+      break;
+    case "POST":
+      options.body = JSON.stringify(data);
       break;
 
     default:

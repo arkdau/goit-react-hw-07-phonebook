@@ -2,13 +2,13 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { fetchAddContacts } from "./../../redux/operations";
 import css from "./Contacts.module.css";
-import { addContact } from "./../../redux/actions";
-import { getContact } from "./../../redux/selectors";
 
 function ContactForm() {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContact);
+
+  const { contacts } = useSelector((state) => state.contacts);
 
   const notify = (name) => toast.warning(`${name} is already in contacts !`);
 
@@ -21,10 +21,10 @@ function ContactForm() {
 
     const form = evt.currentTarget;
     const name = form.elements.name.value;
-    const number = form.elements.number.value;
+    const phone = form.elements.number.value;
 
     if (checkItem(name).length === 0) {
-      dispatch(addContact(name, number));
+      dispatch(fetchAddContacts({name, phone}));
     } else {
       notify(name);
     }
