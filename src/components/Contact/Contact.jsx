@@ -8,7 +8,7 @@ export const Contact = ({ contact }) => {
 
   return (
     <div>
-      {contact.name}: {contact.number}
+      {contact.name}: {contact.phone}
       <button
         type="button"
         onClick={handleDelete}

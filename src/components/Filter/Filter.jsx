@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { setStatusFilter } from "./../../redux/actions";
+import { setStatusFilter } from "./../../redux/operations";
 
 const Filter = () => {
   const dispatch = useDispatch();

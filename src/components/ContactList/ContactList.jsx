@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { getContact, getStatusFilter } from "./../../redux/selectors";
-import * as localStorage from "./../../storage";
+// import { getContact, getStatusFilter } from "./../../redux/selectors";
+// import * as localStorage from "./../../storage";
 import { Contact } from "./../Contact/Contact";
-import { addContact } from "./../../redux/actions";
+// import { addContact } from "./../../redux/actions";
+import { fetchContacts, setStatusFilter } from "./../../redux/operations";
 
 const getVisibleContacts = (contacts, statusFilter) => {
   console.log("statusFilter: ", statusFilter.text);
@@ -17,26 +18,38 @@ const getVisibleContacts = (contacts, statusFilter) => {
 };
 
 function ContactList() {
+const {filtr, error, isLoading, contacts } = useSelector((state) =>
+  state.contacts
+);
+
   const dispatch = useDispatch();
 
-  const contacts = useSelector(getContact);
-  const statusFilter = useSelector(getStatusFilter);
+  // const contacts = useSelector(getContact);
+  // const statusFilter = useSelector(getStatusFilter);
+  const statusFilter = filtr;
 
   const visibleContacts = getVisibleContacts(contacts, statusFilter);
 
   console.log("ContactList-contact: ", contacts);
+  console.log("contactList-visibleContacts: ", visibleContacts);
+  console.log("contactList-statusFilter: ", statusFilter);
+
+
+
+
 
   useEffect(() => {
-    const upContacts = localStorage.load("contacts");
-    upContacts.map((item) => {
-      return dispatch(addContact(item.name, item.number));
-    });
+    dispatch(fetchContacts());
+    // const upContacts = localStorage.load("contacts");
+    // upContacts.map((item) => {
+    //   return dispatch(addContact(item.name, item.number));
+    // });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    localStorage.save("contacts", contacts);
+    // localStorage.save("contacts", contacts);
   }, [contacts]);
 
   return (
