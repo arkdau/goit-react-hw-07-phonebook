@@ -40,7 +40,6 @@ function ContactList() {
   }, [isPosting]);
 
   return (
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     <>
       <ul>
         {(visibleContacts || []).map((item) => {
@@ -51,6 +50,8 @@ function ContactList() {
           );
         })}
       </ul>
+      {isLoading ? <div>Loading ...</div> : ""}
+      {error ? <div>Error Nerwork ...</div> : ""}
     </>
   );
 }
