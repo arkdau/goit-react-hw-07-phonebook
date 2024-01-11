@@ -1,5 +1,22 @@
 import { useDispatch } from "react-redux";
 import { fetchDelContacts } from "./../../redux/operations";
+import styled from "styled-components";
+
+const ItemContainer = styled.div`
+display: flex;
+align-items: center;
+`;
+
+const Content = styled.p`
+padding-left: 20px;
+padding-right: 20px;
+width: 200px;
+`;
+
+
+const Span = styled.span`
+display: flex;
+`;
 
 export const Contact = ({ contact }) => {
   const dispatch = useDispatch();
@@ -7,14 +24,16 @@ export const Contact = ({ contact }) => {
   const handleDelete = () => dispatch(fetchDelContacts(contact.id));
 
   return (
-    <div>
-      {contact.name}: {contact.phone}
+    <ItemContainer>
+      <Content>
+        {contact.name}, <Span>tel.: {contact.phone}</Span>
+      </Content>
       <button
         type="button"
         onClick={handleDelete}
       >
         Remove
       </button>
-    </div>
+    </ItemContainer>
   );
 };

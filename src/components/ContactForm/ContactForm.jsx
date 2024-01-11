@@ -4,6 +4,13 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { fetchAddContacts } from "./../../redux/operations";
 import css from "./Contacts.module.css";
+import { styled } from "styled-components";
+
+const FormContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+`;
 
 function ContactForm() {
   const dispatch = useDispatch();
@@ -24,7 +31,7 @@ function ContactForm() {
     const phone = form.elements.number.value;
 
     if (checkItem(name).length === 0) {
-      dispatch(fetchAddContacts({name, phone}));
+      dispatch(fetchAddContacts({ name, phone }));
     } else {
       notify(name);
     }
@@ -34,24 +41,26 @@ function ContactForm() {
 
   return (
     <>
-      <form className={css.formBox} onSubmit={handleSubmit}>
-        <p>Name</p>
-        <input
-          type="text"
-          name="name"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-        <p>Number</p>
-        <input
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-        <button type="submit">Add contact</button>
-      </form>
+      <FormContainer>
+        <form className={css.formBox} onSubmit={handleSubmit}>
+          <p>Name</p>
+          <input
+            type="text"
+            name="name"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+          />
+          <p>Number</p>
+          <input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+          />
+          <button type="submit">Add contact</button>
+        </form>
+      </FormContainer>
       <div>
         <ToastContainer />
       </div>

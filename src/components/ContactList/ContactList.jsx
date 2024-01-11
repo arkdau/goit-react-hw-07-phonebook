@@ -3,6 +3,19 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Contact } from "./../Contact/Contact";
 import { fetchContacts } from "./../../redux/operations";
+import styled from "styled-components";
+
+const ListContainer = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+// flex-direction: column;
+`;
+
+const MsgContainer = styled.div`
+display: flex;
+justify-content: center;
+`;
 
 const getVisibleContacts = (contacts, filtr) => {
   return (
@@ -41,17 +54,21 @@ function ContactList() {
 
   return (
     <>
-      <ul>
-        {(visibleContacts || []).map((item) => {
-          return (
-            <li key={item.id}>
-              <Contact contact={item} />
-            </li>
-          );
-        })}
-      </ul>
-      {isLoading ? <div>Loading ...</div> : ""}
-      {error ? <div>Error Nerwork ...</div> : ""}
+      <ListContainer>
+        <ul>
+          {(visibleContacts || []).map((item) => {
+            return (
+              <li key={item.id}>
+                <Contact contact={item} />
+              </li>
+            );
+          })}
+        </ul>
+      </ListContainer>
+      <MsgContainer>
+        {isLoading ? <div>Loading ...</div> : ""}
+        {error ? <div>Error Nerwork ...</div> : ""}
+      </MsgContainer>
     </>
   );
 }
