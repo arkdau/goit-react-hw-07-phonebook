@@ -21,9 +21,14 @@ padding: 10px 20px
 text-align: center;
 `;
 
-
 const Input = styled.input`
 display: flex;
+border: 1px solid white;
+border-radius: 5px;
+ -webkit-box-shadow: 0 10px 6px -6px #777;
+     -moz-box-shadow: 0 10px 6px -6px #777;
+          box-shadow: 0 10px 6px -6px #777;
+
 `;
 
 const Filter = () => {
