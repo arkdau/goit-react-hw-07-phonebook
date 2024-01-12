@@ -15,49 +15,21 @@ async function fetchWithTimeout(resource, options) {
   return response;
 }
 
-/**
- * Category name to get a list of books in this category.
- * Will receive a collection of 20 books of a certain category
- */
-const options = {
-  timeout: 6000,
-  method: "GET",
-  // body: JSON.stringify({
-  //   // userId: 1,
-  //   name: "",
-  //   phone: "",
-  // }),
-  headers: {
-    accept: "application/json",
-    "content-type": "application/json",
-  },
-};
+////////////////////// - GET method implementation:
 
-async function fetchData(query, id, data) {
-  options.method = query;
-  let url_1 = "contacts/";
+export async function getData(url_enpoint = "") {
+  const url = `${BASE_API_URL}/${url_enpoint}`;
 
-  switch (query) {
-    case "GET":
-      options.body = null;
-      break;
-    case "DELETE":
-      url_1 = `contacts/${id}`;
-      break;
-    case "POST":
-      options.body = JSON.stringify(data);
-      break;
-
-    default:
-      break;
-  }
+  const options = {
+    timeout: 6000,
+    method: "GET",
+    headers: {
+      accept: "application/json",
+    },
+  };
 
   try {
-    const url = `${BASE_API_URL}/${url_1}`;
-    const response = await fetchWithTimeout(
-      `${url}`,
-      options,
-    );
+    const response = await fetchWithTimeout(url, options);
     // ok - shorthand for checking that the status is in the range 2xx (boolean)
     if (!response.ok) {
       throw new Error(
@@ -75,4 +47,68 @@ async function fetchData(query, id, data) {
   }
 }
 
-export default fetchData;
+////////////////////// - POST method implementation:
+
+export async function postData(url_enpoint = "", data = {}) {
+  const url = `${BASE_API_URL}/${url_enpoint}`;
+
+  const options = {
+    timeout: 6000,
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+    },
+  };
+
+  try {
+    const response = await fetchWithTimeout(url, options);
+    // ok - shorthand for checking that the status is in the range 2xx (boolean)
+    if (!response.ok) {
+      throw new Error(
+        `Network response was not OK - HTTP error: ${response.status}`,
+      );
+    }
+    const data = await response.json();
+    // debugger;
+    return data;
+  } catch (error) {
+    console.error(
+      "There has been a problem with your fetch operation:",
+      error.message,
+    );
+  }
+}
+
+////////////////////// - DELETE method implementation:
+
+export async function deleteData(url_enpoint = "", id = "") {
+  const url = `${BASE_API_URL}/${url_enpoint}/${id}`;
+
+  const options = {
+    timeout: 6000,
+    method: "DELETE",
+    headers: {
+      accept: "application/json",
+    },
+  };
+
+  try {
+    const response = await fetchWithTimeout(url, options);
+    // ok - shorthand for checking that the status is in the range 2xx (boolean)
+    if (!response.ok) {
+      throw new Error(
+        `Network response was not OK - HTTP error: ${response.status}`,
+      );
+    }
+    const data = await response.json();
+    // debugger;
+    return data;
+  } catch (error) {
+    console.error(
+      "There has been a problem with your fetch operation:",
+      error.message,
+    );
+  }
+}
